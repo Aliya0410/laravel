@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 
 class ProductController extends Controller
@@ -34,6 +35,7 @@ class ProductController extends Controller
         $order->product_id = $product->id;
         $order->quantity = $request->quantity;
         $order->total_amount = $total_amount;
+        $order->user_id = Auth::id(); 
         $order->save();
 
         return redirect('/products')->with('success', 'Заказ оформлен успешно!');

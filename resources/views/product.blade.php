@@ -1,32 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $product->name }}</title>
-</head>
-<body>
-<h1>{{ $product->name }}</h1>
+@extends('layouts.app')
+
+@section('content')
+    <h1>{{ $product->name }}</h1>
     <p>Цена: {{ $product->cost }}</p>
-    <p>Количество: {{ $product->amount }}</p>
+    <p>Количество: 
+        @if ($product->amount > 0)
+            {{ $product->amount }}
+        @else
+            Нет в наличии
+        @endif
+    </p>
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+    @if (Auth::check())
+        @if (session('success'))
+            <div class="success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="error">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="/products/{{ $product->id }}/order" method="POST">
+            @csrf
+            <label for="quantity">Количество:</label>
+            <input type="number" name="quantity" id="quantity" min="1">
+            <button type="submit">Заказать</button>
+        </form>
     @endif
-
-    @if ($errors->has('quantity'))
-    <div class="alert alert-danger">
-        {{ $errors->first('quantity') }}
-    </div>
-@endif
-
-    <form action="/products/{{ $product->id }}/order" method="POST">
-        @csrf
-        <label for="quantity">Количество:</label>
-        <input type="number" name="quantity" id="quantity" min="1">
-        <button type="submit">Заказать</button>
-    </form>
-</body>
-</html>
+@endsection

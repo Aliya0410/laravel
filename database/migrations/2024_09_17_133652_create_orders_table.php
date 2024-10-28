@@ -19,8 +19,9 @@ class CreateOrdersTable extends Migration
             $table->integer('quantity');
             $table->integer('total_amount');
             $table->timestamps();
-
             $table->foreign('product_id')->references('id')->on('products');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
