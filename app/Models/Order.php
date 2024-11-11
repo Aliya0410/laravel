@@ -9,12 +9,16 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $table = 'orders';
-
     protected $fillable = [
         'product_id',
         'quantity',
         'total_amount',
+        'status',
+        'user_id',
+    ];
+
+    protected $casts = [
+        'status' => 'string',
     ];
 
     public function product()
@@ -22,4 +26,8 @@ class Order extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

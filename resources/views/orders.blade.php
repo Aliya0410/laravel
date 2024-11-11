@@ -8,6 +8,7 @@
                 Товар: {{ $order->product->name }}
                 Количество: {{ $order->quantity }}
                 Сумма: {{ $order->total_amount }}
+                Статус: {{ $order->status }}
             </li>
         @empty
             <li>У вас нет заказов.</li>
