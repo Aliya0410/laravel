@@ -18,7 +18,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/orders', [OrderController::class, 'index'])->name('orders');
 
-Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+Route::group(['middleware' => 'auth', 'role:admin'], function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::put('/orders/{id}/approve', [AdminController::class, 'approveOrder'])->name('admin.order.approve');
     Route::put('/orders/{id}/deliver', [AdminController::class, 'deliverOrder'])->name('admin.order.deliver');
